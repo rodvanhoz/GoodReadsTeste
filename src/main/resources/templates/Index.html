@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+       xmlns:layout="http://ultraq.net.nz/thymeleaf/layout">
+
+	<head>
+		<title>Busca Livros GoodReads</title>
+	</head>
+		<body>
+			<form action="/resultado" method="get">
+			    <h2>Busca livro GoodReads</h2>
+				
+				<h3> Digite título do livro 
+					<input type="text" name="titlelivro">
+				</h3>
+				
+				<h3> Digite autor do livro
+					<input type="text" name="authorlivro">
+		 		</h3>
+	
+	            <button type="submit">Consultar</button>
+	
+		 		<input onClick="window.location.href='/resultado'" type="submit" Value="Buscar">	
+		</form>		
+	</body>
+</html>
