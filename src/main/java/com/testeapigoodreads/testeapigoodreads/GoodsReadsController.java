@@ -8,6 +8,7 @@ import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -21,7 +22,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.testeapigoodreads.testeapigoodreads.models.GoodReads;
-import com.testeapigoodreads.testeapigoodreads.models.Work;
+import com.testeapigoodreads.testeapigoodreads.models.GoodreadsResponse;
+import com.testeapigoodreads.testeapigoodreads.models.GoodreadsResponse.Search.Results.Work;
+import com.testeapigoodreads.testeapigoodreads.models.Resultado;
+
 
 @Controller
 public class GoodsReadsController {
@@ -34,37 +38,24 @@ public class GoodsReadsController {
 		ModelAndView mv = new ModelAndView("resultado");
 		GoodReads gr = new GoodReads(titlelivro);
 		
-		mv.addObject("mensagem", gr.toString());
-		
-		Teste(gr.toString());
-		
-		return mv; 
-	}
-	
-	public void Teste(String endereco) throws IOException, JAXBException {
-		
-		URL url11 = new URL(endereco);    
-        
-	       
+		// carregando xml 
+		URL url11 = new URL(gr.toString());    
 		URLConnection uconn = url11.openConnection();
+		
 		uconn.setRequestProperty("Content-Type", "text/xml");
 		uconn.setDoInput(true);
 		uconn.setDoOutput(true);
 		HttpURLConnection conn = (HttpURLConnection) uconn;
 		conn.connect();
 		Object content = conn.getContent();
+		
 		st = (InputStream) content;
 		String str=null;
 		String str1=null;
 		BufferedReader br=new BufferedReader(new InputStreamReader(st));
-/*		
-		while((str=br.readLine())!=null){
-		//  str1=  StringEscapeUtils.escapeXml(str);
-			System.out.println(str);
-		}
-*/		
 		BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-	    String inputLine;
+	    
+		String inputLine;
 	    StringBuilder response = new StringBuilder();
 
 	    while ((inputLine = in.readLine()) != null) {
@@ -73,12 +64,27 @@ public class GoodsReadsController {
 	    in.close();
 
 	    StringReader q = new StringReader(response.toString());
-		//JAXBContext jb = JAXBContext.newInstance(Work.class);
-		JAXBContext jb = JAXBContext.newInstance("com.testeapigoodreads.testeapigoodreads");
+		JAXBContext jb = JAXBContext.newInstance("com.testeapigoodreads.testeapigoodreads.models");
 	    
 		Unmarshaller jaxbUnmarshaller = jb.createUnmarshaller();
-		//Work work = (Work) jaxbUnmarshaller.unmarshal(new StreamSource(new StringReader(br.toString())));
-		Work work = (Work) jaxbUnmarshaller.unmarshal(new StreamSource(new StringReader(response.toString())));
-		System.out.println(work);	       
+		GoodreadsResponse grr = (GoodreadsResponse) jaxbUnmarshaller.unmarshal(new StreamSource(new StringReader(response.toString())));
+		Object tmp = grr.getSearch().getResults().getWork();
+		
+		Resultado resultado;
+		ArrayList<Resultado> listaresultado = new ArrayList<Resultado>(); 
+		
+		for(Work w : grr.getSearch().getResults().getWork()) {
+			resultado = new Resultado();
+			resultado.setTitulo(w.getBestBook().getTitle());
+			resultado.setAuthor(w.getBestBook().getAuthor().getName());
+			resultado.setUrlimg(w.getBestBook().getImageUrl());
+			
+			listaresultado.add(resultado);
+		}
+
+		mv.addObject("resultado", listaresultado);
+		
+		return mv; 
 	}
+	
 }

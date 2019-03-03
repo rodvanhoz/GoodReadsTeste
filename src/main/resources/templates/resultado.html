@@ -9,8 +9,25 @@
 	</head>
 
 	<body>
+		<table class="container">
+		<thead>
+			<tr>
+				<th>Nome</th>
+				<th>Local</th>
+				<th>Data</th>
+				<th>Horario</th>
+				<th>Deletar</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="resultado : ${resultado}">
+				<td><span th:text="${resultado.Author}"></span></td>
+				<td><span th:text="${resultado.Titulo}"></span></td>
+				<td><span th:text="${resultado.ImgUrl}"></span></td>
+			</tr>
+		</tbody>
 	
-		<h3><span th:text="${mensagem}"></span></h3>
+</table>
 	    	    
 	</body>
 
