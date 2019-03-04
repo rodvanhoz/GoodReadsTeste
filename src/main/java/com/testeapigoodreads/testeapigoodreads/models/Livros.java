@@ -8,7 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Resultado implements Serializable {
+public class Livros implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -22,7 +22,7 @@ public class Resultado implements Serializable {
 	private String urlimg;
 	private String palavrachave;
 	
-	public Resultado() {
+	public Livros() {
 		this.idlivro = 0;
 		this.titulo = null;
 		this.author = null;
@@ -30,7 +30,7 @@ public class Resultado implements Serializable {
 		this.palavrachave = null;
 	}
 
-	public Resultado(String titulo, String author, String urlimg, long idlivro, String palavrachave) {
+	public Livros(String titulo, String author, String urlimg, long idlivro, String palavrachave) {
 		
 		this.titulo = titulo;
 		this.author = author;
@@ -86,7 +86,5 @@ public class Resultado implements Serializable {
 	public void setPalavrachave(String palavrachave) {
 		this.palavrachave = palavrachave;
 	}
-	
-	
 	
 }

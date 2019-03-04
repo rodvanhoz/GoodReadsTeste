@@ -15,6 +15,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,11 +25,21 @@ import org.springframework.web.servlet.ModelAndView;
 import com.testeapigoodreads.testeapigoodreads.models.GoodReads;
 import com.testeapigoodreads.testeapigoodreads.models.GoodreadsResponse;
 import com.testeapigoodreads.testeapigoodreads.models.GoodreadsResponse.Search.Results.Work;
+import com.testeapigoodreads.testeapigoodreads.models.Livro;
+import com.testeapigoodreads.testeapigoodreads.models.Livros;
+import com.testeapigoodreads.testeapigoodreads.repository.LivrosRepository;
+import com.testeapigoodreads.testeapigoodreads.repository.ResultadoRepository;
 import com.testeapigoodreads.testeapigoodreads.models.Resultado;
 
 
 @Controller
 public class GoodsReadsController {
+	
+	@Autowired
+	private ResultadoRepository rr; 
+	
+	@Autowired
+	private LivrosRepository lr;
 	
 	InputStream st;
 
@@ -50,9 +61,6 @@ public class GoodsReadsController {
 		Object content = conn.getContent();
 		
 		st = (InputStream) content;
-		String str=null;
-		String str1=null;
-		BufferedReader br=new BufferedReader(new InputStreamReader(st));
 		BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 	    
 		String inputLine;
@@ -63,28 +71,35 @@ public class GoodsReadsController {
 	    }
 	    in.close();
 
-	    StringReader q = new StringReader(response.toString());
 		JAXBContext jb = JAXBContext.newInstance("com.testeapigoodreads.testeapigoodreads.models");
 	    
 		Unmarshaller jaxbUnmarshaller = jb.createUnmarshaller();
 		GoodreadsResponse grr = (GoodreadsResponse) jaxbUnmarshaller.unmarshal(new StreamSource(new StringReader(response.toString())));
-		Object tmp = grr.getSearch().getResults().getWork();
 		
 		Resultado resultado;
-		ArrayList<Resultado> listaresultado = new ArrayList<Resultado>(); 
+		//ArrayList<Resultado> listaresultado = new ArrayList<Resultado>(); 
 		
 		for(Work w : grr.getSearch().getResults().getWork()) {
 			resultado = new Resultado();
 			resultado.setTitulo(w.getBestBook().getTitle());
 			resultado.setAuthor(w.getBestBook().getAuthor().getName());
 			resultado.setUrlimg(w.getBestBook().getImageUrl());
+			resultado.setIdlivro(w.getBestBook().getId().getValue());
+			resultado.setPalavrachave(titlelivro);
 			
-			listaresultado.add(resultado);
+			rr.save(resultado);
 		}
 
-		mv.addObject("resultado", listaresultado);
+		mv.addObject("resultado", "Teste");
 		
 		return mv; 
+	}
+	
+	@RequestMapping(value="/resultado", method=RequestMethod.POST)
+	public String form(Livros r) {
+		
+		lr.save(r);
+		return "redirect:/resultado";
 	}
 	
 }
