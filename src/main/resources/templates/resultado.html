@@ -9,26 +9,12 @@
 	</head>
 
 	<body>
-		<table class="container">
-		<thead>
-			<tr>
-				<th>Nome</th>
-				<th>Local</th>
-				<th>Data</th>
-				<th>Horario</th>
-				<th>Deletar</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:each="resultado : ${resultado}">
-				<td><span th:text="${resultado.Author}"></span></td>
-				<td><span th:text="${resultado.Titulo}"></span></td>
-				<td><span th:text="${resultado.ImgUrl}"></span></td>
-			</tr>
-		</tbody>
-	
-</table>
-	    	    
+		<div th:each="resultado : ${resultadoa}"></div>
+			<div class="row">
+				<p><span th:text="${resultado.titulo}"></span></p>
+				<p><span th:text="${resultado.author}"></span></p>
+				<p><span th:text="${resultado.urlimg}"></span></p>
+			</div>
 	</body>
 
 </html>

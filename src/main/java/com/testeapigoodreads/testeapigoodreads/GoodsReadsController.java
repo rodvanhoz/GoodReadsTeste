@@ -16,6 +16,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jca.cci.core.InteractionCallback;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,9 +44,13 @@ public class GoodsReadsController {
 	
 	InputStream st;
 
-	@RequestMapping(value="/resultado", method=RequestMethod.GET)
+	@RequestMapping(value="/resultado")//, method=RequestMethod.GET)
 	public ModelAndView form(@ModelAttribute("titlelivro") String titlelivro, @ModelAttribute("authorlivro") String authorlivro ) throws IOException, JAXBException {
 		
+		// limpando a tabela de resultados
+		rr.deleteAll();
+		
+		// configurando a api goodreads
 		ModelAndView mv = new ModelAndView("resultado");
 		GoodReads gr = new GoodReads(titlelivro);
 		
@@ -77,7 +82,7 @@ public class GoodsReadsController {
 		GoodreadsResponse grr = (GoodreadsResponse) jaxbUnmarshaller.unmarshal(new StreamSource(new StringReader(response.toString())));
 		
 		Resultado resultado;
-		//ArrayList<Resultado> listaresultado = new ArrayList<Resultado>(); 
+		ArrayList<Resultado> r = new ArrayList<Resultado>();
 		
 		for(Work w : grr.getSearch().getResults().getWork()) {
 			resultado = new Resultado();
@@ -87,19 +92,22 @@ public class GoodsReadsController {
 			resultado.setIdlivro(w.getBestBook().getId().getValue());
 			resultado.setPalavrachave(titlelivro);
 			
-			rr.save(resultado);
+			//rr.save(resultado);
+			r.add(resultado);
+			
 		}
 
-		mv.addObject("resultado", "Teste");
-		
+		//Iterable<Resultado> resultados = rr.findAll();
+		Iterable<Resultado> resultados = (Iterable<Resultado>) r;
+		mv.addObject("resultados", resultados);
 		return mv; 
 	}
-	
+/*	
 	@RequestMapping(value="/resultado", method=RequestMethod.POST)
 	public String form(Livros r) {
 		
 		lr.save(r);
 		return "redirect:/resultado";
 	}
-	
+*/	
 }
