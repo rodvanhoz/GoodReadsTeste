@@ -8,13 +8,20 @@
 	
 	</head>
 
-	<body>
-		<div th:each="resultado : ${resultadoa}"></div>
-			<div class="row">
-				<p><span th:text="${resultado.titulo}"></span></p>
-				<p><span th:text="${resultado.author}"></span></p>
-				<p><span th:text="${resultado.urlimg}"></span></p>
-			</div>
-	</body>
-
+	<table class="container">
+		<thead>
+			<tr>
+				<th>Imagem</th>
+				<th>Título</th>
+				<th>Author</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="resultado : ${resultados}">
+				<td><img th:src="${resultado.urlimg}" alt=""></td>
+				<td><span th:text="${resultado.titulo}"></span></td>
+				<td><span th:text="${resultado.author}"></span></td>
+			</tr>
+		</tbody>
+	</table>	
 </html>
