@@ -92,6 +92,9 @@ public class GoodsReadsController {
 			resultado.setIdlivro(w.getBestBook().getId().getValue());
 			resultado.setPalavrachave(titlelivro);
 			
+			// verifica se o livro já está no catalogo
+			resultado.setCatalogado(VerificaCatalogo(w.getId().getValue()));
+			
 			//rr.save(resultado);
 			r.add(resultado);
 			
@@ -110,4 +113,18 @@ public class GoodsReadsController {
 		return "redirect:/resultado";
 	}
 */	
+	
+	
+	// métodos para uso do controller
+	private String VerificaCatalogo(long IdLivro) {
+		
+		String retorna = "N";
+		
+		for (Livros l : lr.findByIdLivro(IdLivro)) {
+			if (l.getIdlivro() == IdLivro)
+				retorna = "S";
+		}
+		
+		return retorna;
+	}
 }

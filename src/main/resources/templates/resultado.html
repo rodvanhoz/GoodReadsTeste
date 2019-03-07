@@ -11,6 +11,7 @@
 	<table class="container">
 		<thead>
 			<tr>
+			    <th></th>
 				<th>Imagem</th>
 				<th>Título</th>
 				<th>Author</th>
@@ -18,6 +19,7 @@
 		</thead>
 		<tbody>
 			<tr th:each="resultado : ${resultados}">
+			    <td><input onClick="window.location.href='/resultado'" type="submit" Value="Catalogar"></td>
 				<td><img th:src="${resultado.urlimg}" alt=""></td>
 				<td><span th:text="${resultado.titulo}"></span></td>
 				<td><span th:text="${resultado.author}"></span></td>

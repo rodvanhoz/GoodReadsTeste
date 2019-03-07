@@ -21,6 +21,7 @@ public class Resultado implements Serializable {
 	private String author;	
 	private String urlimg;
 	private String palavrachave;
+	private String catalogado;
 	
 	public Resultado() {
 		this.idlivro = 0;
@@ -30,13 +31,14 @@ public class Resultado implements Serializable {
 		this.palavrachave = null;
 	}
 
-	public Resultado(String titulo, String author, String urlimg, long idlivro, String palavrachave) {
+	public Resultado(String titulo, String author, String urlimg, long idlivro, String palavrachave, String catalogado) {
 		
 		this.titulo = titulo;
 		this.author = author;
 		this.urlimg = urlimg;
 		this.idlivro = idlivro;
 		this.palavrachave = palavrachave;
+		this.catalogado = catalogado;
 	}
 
 	public String getTitulo() {
@@ -86,7 +88,13 @@ public class Resultado implements Serializable {
 	public void setPalavrachave(String palavrachave) {
 		this.palavrachave = palavrachave;
 	}
-	
-	
+
+	public String getCatalogado() {
+		return catalogado;
+	}
+
+	public void setCatalogado(String catalogado) {
+		this.catalogado = catalogado;
+	}
 	
 }

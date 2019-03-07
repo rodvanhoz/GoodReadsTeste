@@ -16,26 +16,26 @@ public class Livros implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int codigo;
 	
-	private long idlivro;
+	private long IdLivro;
 	private String titulo;
 	private String author;	
 	private String urlimg;
 	private String palavrachave;
 	
 	public Livros() {
-		this.idlivro = 0;
+		this.IdLivro = 0;
 		this.titulo = null;
 		this.author = null;
 		this.urlimg = null;
 		this.palavrachave = null;
 	}
 
-	public Livros(String titulo, String author, String urlimg, long idlivro, String palavrachave) {
+	public Livros(String titulo, String author, String urlimg, long IdLivro, String palavrachave) {
 		
 		this.titulo = titulo;
 		this.author = author;
 		this.urlimg = urlimg;
-		this.idlivro = idlivro;
+		this.IdLivro = IdLivro;
 		this.palavrachave = palavrachave;
 	}
 
@@ -72,11 +72,11 @@ public class Livros implements Serializable {
 	}
 
 	public long getIdlivro() {
-		return idlivro;
+		return IdLivro;
 	}
 
 	public void setIdlivro(long idlivro) {
-		this.idlivro = idlivro;
+		this.IdLivro = idlivro;
 	}
 
 	public String getPalavrachave() {
