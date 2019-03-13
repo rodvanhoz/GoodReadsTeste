@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jca.cci.core.InteractionCallback;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -42,6 +43,7 @@ public class GoodsReadsController {
 	@Autowired
 	private LivrosRepository lr;
 	
+	public ArrayList<Resultado> r = new ArrayList<Resultado>();
 	InputStream st;
 
 	@RequestMapping(value="/resultado")//, method=RequestMethod.GET)
@@ -82,7 +84,6 @@ public class GoodsReadsController {
 		GoodreadsResponse grr = (GoodreadsResponse) jaxbUnmarshaller.unmarshal(new StreamSource(new StringReader(response.toString())));
 		
 		Resultado resultado;
-		ArrayList<Resultado> r = new ArrayList<Resultado>();
 		
 		for(Work w : grr.getSearch().getResults().getWork()) {
 			resultado = new Resultado();
@@ -106,13 +107,29 @@ public class GoodsReadsController {
 		return mv; 
 	}
 /*	
-	@RequestMapping(value="/resultado", method=RequestMethod.POST)
+	@RequestMapping(value="/resultado", method=RequestMethod.GET)
 	public String form(Livros r) {
 		
 		lr.save(r);
 		return "redirect:/resultado";
 	}
-*/	
+*/
+	@RequestMapping("/{IdLivro}")
+	public ModelAndView salvaCatalogo(@PathVariable("IdLivro") long IdLivro) {
+		
+		ModelAndView mv = new ModelAndView("resultado");
+		Iterable<Livros> livros = lr.findByIdLivro(IdLivro);
+		
+		Livros livro;
+		if (livros == null) {
+			for (Resultado result : r) {
+				livro = new Livros(result.getTitulo(), result.getAuthor(), result.getUrlimg(), result.getIdlivro(), result.getPalavrachave());
+				lr.save(livro);
+			}
+		}
+		
+		return mv;
+	}
 	
 	
 	// métodos para uso do controller
