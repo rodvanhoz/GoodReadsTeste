@@ -19,8 +19,8 @@
 		</thead>
 		<tbody>
 			<tr th:each="resultado : ${resultados}">
-			    <!-- <td><input onClick="window.location.href='/resultado'" type="submit" Value="Catalogar"></td>  -->
-			    <td><a th:href="${(#mvc.url('EC#salvaCatalogo').arg(0, resultado.IdLivro)).build()}"><span th:text="${resultado.IdLivro}"></span></a></td>
+			    <td><input onClick="window.location.href='/resultado'" type="submit" Value="Catalogar"></td>
+			    <!--<td><a th:href="${(#mvc.url('EC#salvaCatalogo').arg(0, resultado.IdLivro)).build()}"><span th:text="${resultado.IdLivro}"></span></a></td> -->
 				<td><img th:src="${resultado.urlimg}" alt=""></td>
 				<td><span th:text="${resultado.titulo}"></span></td>
 				<td><span th:text="${resultado.author}"></span></td>
