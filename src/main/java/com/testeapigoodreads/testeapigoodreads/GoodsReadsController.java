@@ -16,22 +16,21 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jca.cci.core.InteractionCallback;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.testeapigoodreads.testeapigoodreads.models.GoodReads;
 import com.testeapigoodreads.testeapigoodreads.models.GoodreadsResponse;
 import com.testeapigoodreads.testeapigoodreads.models.GoodreadsResponse.Search.Results.Work;
-import com.testeapigoodreads.testeapigoodreads.models.Livro;
 import com.testeapigoodreads.testeapigoodreads.models.Livros;
+import com.testeapigoodreads.testeapigoodreads.models.Resultado;
 import com.testeapigoodreads.testeapigoodreads.repository.LivrosRepository;
 import com.testeapigoodreads.testeapigoodreads.repository.ResultadoRepository;
-import com.testeapigoodreads.testeapigoodreads.models.Resultado;
 
 
 @Controller
@@ -46,7 +45,7 @@ public class GoodsReadsController {
 	public ArrayList<Resultado> r = new ArrayList<Resultado>();
 	InputStream st;
 
-	@RequestMapping(value="/resultado")//, method=RequestMethod.GET)
+	@RequestMapping(value="/resultado")
 	public ModelAndView form(@ModelAttribute("titlelivro") String titlelivro, @ModelAttribute("authorlivro") String authorlivro ) throws IOException, JAXBException {
 		
 		// limpando a tabela de resultados
@@ -106,14 +105,15 @@ public class GoodsReadsController {
 		mv.addObject("resultados", resultados);
 		return mv; 
 	}
-/*	
-	@RequestMapping(value="/resultado", method=RequestMethod.GET)
-	public String form(Livros r) {
+	
+	@RequestMapping(value = "/resultado" , method=RequestMethod.POST)
+	public void editCustomer(@RequestParam(value = "catalog", required = false) String checkboxValue) {	
 		
-		lr.save(r);
-		return "redirect:/resultado";
+		System.out.println("teste");
+//		lr.save(r);
+//		return "redirect:/resultado";
 	}
-*/
+
 	@RequestMapping("/{IdLivro}")
 	public ModelAndView salvaCatalogo(@PathVariable("IdLivro") long IdLivro) {
 		

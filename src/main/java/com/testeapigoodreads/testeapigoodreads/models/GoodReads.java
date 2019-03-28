@@ -4,39 +4,27 @@ public class GoodReads {
 	
 	protected String url;
 	protected String key;
-	private Livro q;
+	protected String Title;
 	
 	public GoodReads() {
 		
 		this.url = "https://www.goodreads.com/search.xml";
 		this.key = "tfVrwQ1u1TIMFVoAes5tZQ";
-		this.q   = new Livro();
 		
 	}
 
 	public GoodReads(String title) {
 		this.url = "https://www.goodreads.com/search/index.xml";
 		this.key = "tfVrwQ1u1TIMFVoAes5tZQ";
-		this.q   = new Livro();
+		this.Title = title;
 		
-		q.setTitle(title);
-		
-	}
-
-	public Livro getQ() {
-		return q;
-	}
-
-	public void setQ(Livro q) {
-		this.q = q;
 	}
 
 	@Override
 	public String toString() {
 		return this.url + 
 				"?key=" + this.key + 
-				"&q={" + this.q.getTitle() + "}";
+				"&q={" + this.Title + "}";
 	}
 
-	
 }
